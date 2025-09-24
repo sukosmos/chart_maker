@@ -58,7 +58,7 @@ add_labels(correct_obf, incorrect_obf, bar3, bar4)
 # 축, 제목, 레이블
 ax.set_xlabel("Models")
 ax.set_ylabel("Count")
-ax.set_title("RC correctness(Ori vs Obf)")
+ax.set_title("RC correctness(Original vs Obfuscated)")
 ax.set_xticks(x)
 ax.set_xticklabels(models)
 

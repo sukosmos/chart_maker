@@ -69,7 +69,7 @@ add_labels([identical_obf, equivalent_obf, alternatives_obf, workaround_obf, inc
 # 축, 제목, 레이블
 ax.set_xlabel("Models")
 ax.set_ylabel("Count")
-ax.set_title("Patch correctness(Ori vs Obf)")
+ax.set_title("Patch correctness(Original vs Obfuscated)")
 ax.set_xticks(x)
 ax.set_xticklabels(models)
 

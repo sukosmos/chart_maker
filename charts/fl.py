@@ -22,7 +22,7 @@ bar1 = ax.bar(x - width/2, correct_ori, width, label="Correct (ori)", color="#1a
 bar2 = ax.bar(x - width/2, incorrect_ori, width, bottom=correct_ori, label="Incorrect (ori)", color="#ea801c")
 
 # --- OBF (오른쪽 막대, correct 먼저) ---
-bar3 = ax.bar(x + width/2, correct_obf, width, label="Correct (obf)", color="#1a80bb91")
+bar3 = ax.bar(x + width/2, correct_obf, width, label="Correct (trans)", color="#1a80bb91")
 bar4 = ax.bar(x + width/2, incorrect_obf, width, bottom=correct_obf, label="Incorrect (trans)", color="#ea801c84")
 
 # --- 라벨 추가 함수 (값 + 비율 모두 표시) ---

@@ -18,16 +18,16 @@ width = 0.35  # 막대 너비
 fig, ax = plt.subplots(figsize=(10, 6))
 
 # --- ORI (왼쪽 막대, correct 먼저) ---
-bar1 = ax.bar(x - width/2, correct_ori, width, label="Correct (ori)", color="#5379A7")
-bar2 = ax.bar(x - width/2, incorrect_ori, width, bottom=correct_ori, label="Incorrect (ori)", color="#AE3543")
+bar1 = ax.bar(x - width/2, correct_ori, width, label="Correct (ori)", color="#298c8c")
+bar2 = ax.bar(x - width/2, incorrect_ori, width, bottom=correct_ori, label="Incorrect (ori)", color="#f2c45f")
 
 # --- OBF (오른쪽 막대, correct 먼저) ---
-bar3 = ax.bar(x + width/2, correct_obf, width, label="Correct (obf)", color="#80B7F7")
-bar4 = ax.bar(x + width/2, incorrect_obf, width, bottom=correct_obf, label="Incorrect (obf)", color="#F86C7E")
+bar3 = ax.bar(x + width/2, correct_obf, width, label="Correct (obf)", color="#298c8cac")
+bar4 = ax.bar(x + width/2, incorrect_obf, width, bottom=correct_obf, label="Incorrect (obf)", color="#f2c35f99")
 
 # --- Correct 값 꺾은선 (combo) ---
 ax.plot(x - width/2, correct_ori, marker="o", color="blue", linewidth=2, label="Correct Line (ori)")
-ax.plot(x + width/2, correct_obf, marker="s", color="purple", linewidth=2, label="Correct Line (obf)")
+ax.plot(x + width/2, correct_obf, marker="s", color="red", linewidth=2, label="Correct Line (obf)")
 
 # --- 라벨 추가 함수 (값 + 비율 모두 표시) ---
 def add_labels(correct_vals, incorrect_vals, bars_correct, bars_incorrect):
@@ -40,7 +40,7 @@ def add_labels(correct_vals, incorrect_vals, bars_correct, bars_incorrect):
         ratio_c = correct_vals[i] / total * 100
         ax.text(x_pos_c, h_c / 2,
                 f"{correct_vals[i]}\n({ratio_c:.1f}%)",
-                ha="center", va="center", color="white", fontsize=9, fontweight="bold")
+                ha="center", va="center", color="black", fontsize=9, fontweight="bold")
 
         # Incorrect 라벨
         h_i = bar_i.get_height()
@@ -49,7 +49,7 @@ def add_labels(correct_vals, incorrect_vals, bars_correct, bars_incorrect):
         ratio_i = incorrect_vals[i] / total * 100
         ax.text(x_pos_i, bottom_i + h_i / 2,
                 f"{incorrect_vals[i]}\n({ratio_i:.1f}%)",
-                ha="center", va="center", color="white", fontsize=9, fontweight="bold")
+                ha="center", va="center", color="black", fontsize=9, fontweight="bold")
 
 # ORI + OBF 라벨
 add_labels(correct_ori, incorrect_ori, bar1, bar2)

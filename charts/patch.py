@@ -25,26 +25,28 @@ fig, ax = plt.subplots(figsize=(12, 7))
 
 # --- ORI (왼쪽 막대) ---
 bars_ori = []
-bars_ori.append(ax.bar(x - width/2, identical_ori, width, color="#3595ccff", label="Identical (ori)"))
-bars_ori.append(ax.bar(x - width/2, equivalent_ori, width, bottom=np.array(identical_ori), color="#3595cccc", label="Equivalent (ori)"))
-bars_ori.append(ax.bar(x - width/2, alternatives_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori), color="#3595cc78", label="Alternatives (ori)"))
-bars_ori.append(ax.bar(x - width/2, workaround_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori), color="#3595cc4c", label="Workaround (ori)"))
-bars_ori.append(ax.bar(x - width/2, incorrect_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori)+np.array(workaround_ori), color="#3595cc27", label="Incorrect (ori)"))
+bars_ori.append(ax.bar(x - width/2, identical_ori, width, color="#1a80bb", label="Identical (ori)"))
+bars_ori.append(ax.bar(x - width/2, equivalent_ori, width, bottom=np.array(identical_ori), color="#1a80bbc0", label="Equivalent (ori)"))
+bars_ori.append(ax.bar(x - width/2, alternatives_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori), color="#1a80bb98", label="Alternatives (ori)"))
+bars_ori.append(ax.bar(x - width/2, workaround_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori), color="#ea801cff", label="Workaround (ori)"))
+bars_ori.append(ax.bar(x - width/2, incorrect_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori)+np.array(workaround_ori), color="#ea801cc3", label="Incorrect (ori)"))
 
 # --- OBF (오른쪽 막대) ---
 bars_obf = []
-bars_obf.append(ax.bar(x + width/2, identical_obf, width, color="#ea801c", label="Identical (trans)"))
-bars_obf.append(ax.bar(x + width/2, equivalent_obf, width, bottom=np.array(identical_obf), color="#ea801cce", label="Equivalent (trans)"))
-bars_obf.append(ax.bar(x + width/2, alternatives_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf), color="#ea801c9e", label="Alternatives (trans)"))
-bars_obf.append(ax.bar(x + width/2, workaround_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf), color="#ea801c79", label="Workaround (trans)"))
-bars_obf.append(ax.bar(x + width/2, incorrect_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf)+np.array(workaround_obf), color="#ea801c47", label="Incorrect (trans)"))
+bars_obf.append(ax.bar(x + width/2, identical_obf, width, color="#298c8c", label="Identical (trans)"))
+bars_obf.append(ax.bar(x + width/2, equivalent_obf, width, bottom=np.array(identical_obf), color="#298c8cbd", label="Equivalent (trans)"))
+bars_obf.append(ax.bar(x + width/2, alternatives_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf), color="#298c8c95", label="Alternatives (trans)"))
+bars_obf.append(ax.bar(x + width/2, workaround_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf), color="#f2c45f", label="Workaround (trans)"))
+bars_obf.append(ax.bar(x + width/2, incorrect_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf)+np.array(workaround_obf), color="#f2c35fc3", label="Incorrect (trans)"))
 
 # --- Correct-like Line (identical+equivalent+alternatives) ---
 correct_like_ori = np.array(identical_ori) + np.array(equivalent_ori) + np.array(alternatives_ori)
 correct_like_obf = np.array(identical_obf) + np.array(equivalent_obf) + np.array(alternatives_obf)
 
+'''
 ax.plot(x - width/2, correct_like_ori, marker="o", color="#fc8edd", linewidth=2, label="(Id+Eq+Alt) Correct Line (ori)")
 ax.plot(x + width/2, correct_like_obf, marker="s", color="#fbff0d", linewidth=2, linestyle="--", label="(Id+Eq+Alt) Correct Line (trans)")
+'''
 
 # --- 라벨 추가 함수 (0도 표시) ---
 def add_labels(group_vals, bar_group):

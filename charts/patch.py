@@ -149,4 +149,5 @@ ax.grid(axis='y', linestyle='--', alpha=0.7)  # y축 방향으로만 점선 격�
 ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=14)
 
 plt.tight_layout()
+plt.savefig('patch.png', format='png', dpi=300, bbox_inches='tight')
 plt.show()

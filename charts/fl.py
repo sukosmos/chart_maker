@@ -104,4 +104,5 @@ ax.yaxis.set_major_locator(plt.MultipleLocator(10))  # 5단위로 눈금 설정
 ax.grid(axis='y', linestyle='--', alpha=0.7)  # y축 방향으로만 점선 격자 추가
 
 plt.tight_layout()
+plt.savefig('fl.png', format='png', dpi=300, bbox_inches='tight')
 plt.show()

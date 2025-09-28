@@ -16,6 +16,7 @@ matplotlib
 - patch
 - patch_pie
 - bubble: patch의 변경값
+- images
 
 <br>
 

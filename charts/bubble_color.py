@@ -46,12 +46,31 @@ model_colors = {
 
 # 2x2 subplot 생성
 fig, axes = plt.subplots(2, 2, figsize=(20, 14))
-fig.suptitle("Patch Changes", fontsize=16, y=0.95)
+fig.suptitle("Patch Changes", fontsize=20, y=0.95)
+
+# 모델별 기본 색상 정의
+model_base_colors = {
+    "GPT-4o": ('#1a80bb', '#e74c3c'),         # (기본색, 붉은색)
+    "Claude": ('#ea801c', '#ff6b6b'),         # (기본색, 붉은색)
+    "o3-mini-high": ('#298c8c', '#ff7675'),   # (기본색, 붉은색)
+    "Gemini 2.0 flash": ('#f2c45f', '#fab1a0') # (기본색, 붉은색)
+}
+
+def get_bubble_color(title, i, j):
+    """색상 결정 함수"""
+    # Correct/Incorrect 카테고리 구분
+    correct_indices = [0, 1, 2]  # identical, equivalent, alternatives
+    incorrect_indices = [3, 4]   # workaround, incorrect
+    
+    if i in correct_indices and j in incorrect_indices:
+        return model_base_colors[title][1]  # 붉은색 계열
+    return model_base_colors[title][0]      # 기본 색상
 
 # 각 subplot에 데이터셋 그리기
 for ax, (title, data) in zip(axes.flat, datasets.items()):
     x, y, sizes = [], [], []
-    values = []  # 실제 값을 저장할 리스트 추가
+    values = []
+    colors = []  # 버블별 색상을 저장할 리스트
     
     # 모든 좌표에 대해 처리 (0 포함)
     for i in range(len(y_labels)):
@@ -61,13 +80,14 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
             size = data[i][j] * 1000 if data[i][j] > 0 else 0
             sizes.append(size)
             values.append(data[i][j])
+            colors.append(get_bubble_color(title, i, j))  # 색상 결정
 
-    # 산점도 그리기 - 모델별 색상 적용
-    scatter = ax.scatter(x, y, s=sizes, alpha=0.7,  # alpha 값 약간 증가
-                        color=model_colors[title], 
+    # 산점도 그리기 - colors 매개변수 수정
+    scatter = ax.scatter(x, y, s=sizes, alpha=0.7,
+                        c=colors,  # 색상 리스트 사용
                         edgecolor='black', 
                         linewidth=1)
-    
+
     # 값이 0보다 큰 경우에만 값 표시
     for i, (x_pos, y_pos, value) in enumerate(zip(x, y, values)):
         if value > 0:

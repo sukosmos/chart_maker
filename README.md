@@ -14,8 +14,10 @@ matplotlib
 - fl
 - rc
 - patch
+- patch_pie
+- bubble: patch의 변경값
 
 <br>
 
-### branch - edge
-added black edges
+### colors
+https://www.simplifiedsciencepublishing.com/resources/best-color-palettes-for-scientific-figures-and-data-visualizations

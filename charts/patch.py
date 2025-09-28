@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 모델 이름
+# Model names with versions - 수정
 models = ["GPT-4o", "Claude Sonnet 3.5", "o3-mini-high", "Gemini 2.0 flash"]
+model_labels = [f"(ori)    (trans)\n\n{m}" for m in models]
 
 # ORI 데이터
 identical_ori   = [11, 11, 11,  9]
@@ -18,69 +19,134 @@ alternatives_obf= [10,  6,  1,  4]
 workaround_obf  = [6,  3,  4,  2]
 incorrect_obf   = [11, 10, 16, 18]
 
-x = np.arange(len(models))
-width = 0.35
+# Setup
+x = np.arange(len(models)) * 1.0  # Increased spacing between model groups
+width = 0.3  # Bar width
 
 fig, ax = plt.subplots(figsize=(12, 7))
 
-# --- ORI (왼쪽 막대) ---
+# Colors for categories
+colors = {
+    'identical': '#1a80bb',
+    'equivalent': '#1a80bba5',
+    'alternatives': '#1a80bb5e',
+    'workaround': '#ea801ca0',
+    'incorrect': '#ea801cff'
+}
+
+# --- Original version bars ---
 bars_ori = []
-bars_ori.append(ax.bar(x - width/2, identical_ori, width, color="#1a80bb", label="Identical (ori)", edgecolor='black', linewidth=0.5))
-bars_ori.append(ax.bar(x - width/2, equivalent_ori, width, bottom=np.array(identical_ori), color="#1a80bbc0", label="Equivalent (ori)", edgecolor='black', linewidth=0.5))
-bars_ori.append(ax.bar(x - width/2, alternatives_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori), color="#1a80bb98", label="Alternatives (ori)", edgecolor='black', linewidth=0.5))
-bars_ori.append(ax.bar(x - width/2, workaround_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori), color="#ea801cff", label="Workaround (ori)", edgecolor='black', linewidth=0.5))
-bars_ori.append(ax.bar(x - width/2, incorrect_ori, width, bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori)+np.array(workaround_ori), color="#ea801cc3", label="Incorrect (ori)", edgecolor='black', linewidth=0.5))
+bars_ori.append(ax.bar(x - width*0.6, identical_ori, width, color=colors['identical'], 
+                      label='Identical', edgecolor='black', linewidth=0.5))
+bars_ori.append(ax.bar(x - width*0.6, equivalent_ori, width, 
+                      bottom=np.array(identical_ori), 
+                      color=colors['equivalent'], label='Equivalent', 
+                      edgecolor='black', linewidth=0.5))
+bars_ori.append(ax.bar(x - width*0.6, alternatives_ori, width, 
+                      bottom=np.array(identical_ori)+np.array(equivalent_ori), 
+                      color=colors['alternatives'], label='Alternatives', 
+                      edgecolor='black', linewidth=0.5))
+bars_ori.append(ax.bar(x - width*0.6, workaround_ori, width, 
+                      bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori), 
+                      color=colors['workaround'], label='Workaround', 
+                      edgecolor='black', linewidth=0.5))
+bars_ori.append(ax.bar(x - width*0.6, incorrect_ori, width, 
+                      bottom=np.array(identical_ori)+np.array(equivalent_ori)+np.array(alternatives_ori)+np.array(workaround_ori), 
+                      color=colors['incorrect'], label='Incorrect', 
+                      edgecolor='black', linewidth=0.5))
 
-# --- OBF (오른쪽 막대) ---
+# --- Transformed version bars (without labels to avoid duplicate legends) ---
 bars_obf = []
-bars_obf.append(ax.bar(x + width/2, identical_obf, width, color="#298c8c", label="Identical (trans)", edgecolor='black', linewidth=0.5))
-bars_obf.append(ax.bar(x + width/2, equivalent_obf, width, bottom=np.array(identical_obf), color="#298c8cbd", label="Equivalent (trans)", edgecolor='black', linewidth=0.5))
-bars_obf.append(ax.bar(x + width/2, alternatives_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf), color="#298c8c95", label="Alternatives (trans)", edgecolor='black', linewidth=0.5))
-bars_obf.append(ax.bar(x + width/2, workaround_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf), color="#f2c45f", label="Workaround (trans)", edgecolor='black', linewidth=0.5))
-bars_obf.append(ax.bar(x + width/2, incorrect_obf, width, bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf)+np.array(workaround_obf), color="#f2c35fc3", label="Incorrect (trans)", edgecolor='black', linewidth=0.5))
+bars_obf.append(ax.bar(x + width*0.6, identical_obf, width, 
+                      color=colors['identical'], edgecolor='black', linewidth=0.5))
+bars_obf.append(ax.bar(x + width*0.6, equivalent_obf, width, 
+                      bottom=np.array(identical_obf), 
+                      color=colors['equivalent'], edgecolor='black', linewidth=0.5))
+bars_obf.append(ax.bar(x + width*0.6, alternatives_obf, width, 
+                      bottom=np.array(identical_obf)+np.array(equivalent_obf), 
+                      color=colors['alternatives'], edgecolor='black', linewidth=0.5))
+bars_obf.append(ax.bar(x + width*0.6, workaround_obf, width, 
+                      bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf), 
+                      color=colors['workaround'], edgecolor='black', linewidth=0.5))
+bars_obf.append(ax.bar(x + width*0.6, incorrect_obf, width, 
+                      bottom=np.array(identical_obf)+np.array(equivalent_obf)+np.array(alternatives_obf)+np.array(workaround_obf), 
+                      color=colors['incorrect'], edgecolor='black', linewidth=0.5))
 
-# --- Correct-like Line (identical+equivalent+alternatives) ---
-correct_like_ori = np.array(identical_ori) + np.array(equivalent_ori) + np.array(alternatives_ori)
-correct_like_obf = np.array(identical_obf) + np.array(equivalent_obf) + np.array(alternatives_obf)
-
-'''
-ax.plot(x - width/2, correct_like_ori, marker="o", color="#fc8edd", linewidth=2, label="(Id+Eq+Alt) Correct Line (ori)")
-ax.plot(x + width/2, correct_like_obf, marker="s", color="#fbff0d", linewidth=2, linestyle="--", label="(Id+Eq+Alt) Correct Line (trans)")
-'''
-
-# --- 라벨 추가 함수 (0도 표시) ---
-def add_labels(group_vals, bar_group):
-    totals = np.sum(group_vals, axis=0)  # 모델별 total
+# Value labels function 수정
+def add_labels(group_vals, bar_group, is_ori=True):
+    totals = np.sum(group_vals, axis=0)
     for cat_idx, bars in enumerate(bar_group):
         for i, bar in enumerate(bars):
             h = bar.get_height()
             x_pos = bar.get_x() + bar.get_width() / 2
             bottom = bar.get_y()
             ratio = group_vals[cat_idx][i] / totals[i] * 100 if totals[i] > 0 else 0
-            # 높이가 0인 경우에도 표시 → 막대 중심 대신 bottom에 표시
             y_pos = bottom + h/2 if h > 0 else bottom + 0.1
-            ax.text(x_pos, y_pos,
-                    f"{group_vals[cat_idx][i]}\n({ratio:.1f}%)",
-                    ha="center", va="center", color="black", fontsize=8, fontweight="bold")
+            
+            # 2 이하의 값은 바깥에 표시
+            if h <= 2:
+                # ori 버전은 왼쪽, trans 버전은 오른쪽에 표시
+                if is_ori:
+                    xytext = (x_pos - width*0.8, bottom + h/2)  # 왼쪽
+                    ha = 'right'
+                else:
+                    xytext = (x_pos + width*0.8, bottom + h/2)  # 오른쪽
+                    ha = 'left'
+                
+                # 값과 비율을 분리하여 표시
+                ax.annotate(
+                    f"{group_vals[cat_idx][i]}",  # 값만 표시
+                    xy=(x_pos, bottom + h/2),
+                    xytext=xytext,
+                    ha=ha, va='center',
+                    fontsize=14,  # 값은 14
+                    fontweight='bold',
+                    arrowprops=dict(arrowstyle='->', color='black', linewidth=1)
+                )
+                
+                # 비율은 별도로 표시
+                ax.text(xytext[0], xytext[1] - h/4,
+                       f"\n\n({ratio:.1f}%)",
+                       ha=ha, va='center',
+                       color="black",
+                       fontsize=9,  # 비율은 9
+                       fontweight='bold')
+            else:
+                # 기존 방식대로 막대 안에 표시
+                ax.text(x_pos, y_pos + h/8,
+                       f"{group_vals[cat_idx][i]}",
+                       ha="center", va="center", 
+                       color="black",
+                       fontsize=14,
+                       fontweight="bold")
+                
+                ax.text(x_pos, y_pos - h/8,
+                       f"\n({ratio:.1f}%)",
+                       ha="center", va="center", 
+                       color="black",
+                       fontsize=9,
+                       fontweight="bold")
 
-# ORI 라벨
-add_labels([identical_ori, equivalent_ori, alternatives_ori, workaround_ori, incorrect_ori], bars_ori)
-# OBF 라벨
-add_labels([identical_obf, equivalent_obf, alternatives_obf, workaround_obf, incorrect_obf], bars_obf)
+# Add labels for both versions (함수 호출 부분도 수정)
+add_labels([identical_ori, equivalent_ori, alternatives_ori, workaround_ori, incorrect_ori], bars_ori, is_ori=True)
+add_labels([identical_obf, equivalent_obf, alternatives_obf, workaround_obf, incorrect_obf], bars_obf, is_ori=False)
 
-# 축, 제목, 레이블
-ax.set_xlabel("Models")
-ax.set_ylabel("Count")
-ax.set_title("Patch correctness (orig. vs trans.)")
+# Customize the plot
+ax.set_xlabel("Models", labelpad=15, fontsize=14)  # labelpad로 여백 추가
 ax.set_xticks(x)
-ax.set_xticklabels(models)
+ax.set_xticklabels(model_labels, fontsize=14)
+ax.set_ylabel("Number of bugs", fontsize=14)
+ax.set_title("Patch correctness (ori. vs trans.)", fontsize=14, pad=15)
+
+# y축 눈금 폰트 크기 설정
+ax.tick_params(axis='both', labelsize=14)
 
 # y축 격자 
-ax.yaxis.set_major_locator(plt.MultipleLocator(5))  # 5단위로 눈금 설정
+ax.yaxis.set_major_locator(plt.MultipleLocator(10))  # 5단위로 눈금 설정
 ax.grid(axis='y', linestyle='--', alpha=0.7)  # y축 방향으로만 점선 격자 추가
 
-# 범례
-ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
+# Legend
+ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=14)
 
 plt.tight_layout()
 plt.show()

@@ -102,8 +102,8 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
     ax.grid(True, linestyle='--', alpha=0.7)
     
     # 축 범위 명시적 설정
-    ax.set_xlim(-0.5, len(x_labels)-0.5)
-    ax.set_ylim(-0.5, len(y_labels)-0.5)
+    ax.set_xlim(-1.0, len(x_labels)-0.5)
+    ax.set_ylim(-1.0, len(y_labels)-0.5)
     
     # 여백 조정
     ax.margins(0.2)

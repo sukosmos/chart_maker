@@ -36,14 +36,31 @@ datasets = {
     ]
 }
 
+def get_bubble_color(i, j):
+    """
+    i: ori category index (y-axis)
+    j: trans category index (x-axis)
+    returns: color for the bubble
+    """
+    # Correct categories (identical, equivalent, alternatives)
+    correct_indices = [0, 1, 2]
+    # Incorrect categories (workaround, incorrect)
+    incorrect_indices = [3, 4]
+    
+    if i in correct_indices and j in incorrect_indices:
+        return '#e74c3c'  # 붉은색 (correct -> incorrect)
+    else:
+        return '#1a80bb'  # 기존 파란색
+
 # 2x2 subplot 생성
 fig, axes = plt.subplots(2, 2, figsize=(20, 14))  # 세로 길이 12 -> 14로 증가
-fig.suptitle("Patch Changes", fontsize=16, y=0.95)
+fig.suptitle("Patch Changes", fontsize=20, y=0.95)
 
 # 각 subplot에 데이터셋 그리기
 for ax, (title, data) in zip(axes.flat, datasets.items()):
     x, y, sizes = [], [], []
-    values = []  # 실제 값을 저장할 리스트 추가
+    values = []
+    colors = []  # 버블별 색상을 저장할 리스트
     
     # 모든 좌표에 대해 처리 (0 포함)
     for i in range(len(y_labels)):
@@ -53,10 +70,11 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
             size = data[i][j] * 1000 if data[i][j] > 0 else 0
             sizes.append(size)
             values.append(data[i][j])
+            colors.append(get_bubble_color(i, j))  # 색상 결정
 
-    # 산점도 그리기
+    # 산점도 그리기 - colors 매개변수 추가
     scatter = ax.scatter(x, y, s=sizes, alpha=0.6, 
-                        color='#1a80bb', edgecolor='black', linewidth=1)
+                        c=colors, edgecolor='black', linewidth=1)
     
     # 값이 0보다 큰 경우에만 값 표시
     for i, (x_pos, y_pos, value) in enumerate(zip(x, y, values)):
@@ -84,8 +102,8 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
     ax.grid(True, linestyle='--', alpha=0.7)
     
     # 축 범위 명시적 설정
-    ax.set_xlim(-0.5, len(x_labels)-0.5)
-    ax.set_ylim(-0.5, len(y_labels)-0.5)
+    ax.set_xlim(-1.0, len(x_labels)-0.5)
+    ax.set_ylim(-1.0, len(y_labels)-0.5)
     
     # 여백 조정
     ax.margins(0.2)

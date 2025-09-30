@@ -13,7 +13,7 @@ datasets = {
         [0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0]
     ],
-    "Claude": [
+    "Claude Sonnet 3.5": [
         [0, 2, 0, 0, 3],
         [2, 0, 3, 1, 0],
         [2, 1, 0, 0, 1],
@@ -42,19 +42,23 @@ def get_bubble_color(i, j):
     j: trans category index (x-axis)
     returns: color for the bubble
     """
-    # Correct categories (identical, equivalent, alternatives)
-    correct_indices = [0, 1, 2]
-    # Incorrect categories (workaround, incorrect)
-    incorrect_indices = [3, 4]
+    # Category indices
+    identical_equiv = [0, 1]      # identical, equivalent
+    alternatives_equiv = [1, 2]    # equivalent, alternatives
+    incorrect_indices = [3, 4]    # workaround, incorrect
     
-    if i in correct_indices and j in incorrect_indices:
+    if i in identical_equiv and j in alternatives_equiv:
+        return '#f39c12'  # 주황색 (identical/equivalent -> alternatives/equivalent)
+    elif i in identical_equiv + [2] and j in incorrect_indices:
         return '#e74c3c'  # 붉은색 (correct -> incorrect)
+    elif i in incorrect_indices and j in incorrect_indices:
+        return '#9b59b6'  # 보라색 (incorrect -> incorrect)
     else:
         return '#1a80bb'  # 기존 파란색
 
 # 2x2 subplot 생성
 fig, axes = plt.subplots(2, 2, figsize=(20, 14))  # 세로 길이 12 -> 14로 증가
-fig.suptitle("Patch Changes", fontsize=20, y=0.95)
+fig.suptitle("Patch Correctness Changes", fontsize=20, y=0.95)
 
 # 각 subplot에 데이터셋 그리기
 for ax, (title, data) in zip(axes.flat, datasets.items()):
@@ -72,9 +76,15 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
             values.append(data[i][j])
             colors.append(get_bubble_color(i, j))  # 색상 결정
 
-    # 산점도 그리기 - colors 매개변수 추가
-    scatter = ax.scatter(x, y, s=sizes, alpha=0.6, 
-                        c=colors, edgecolor='black', linewidth=1)
+    # Add diagonal line (x=y) - modified to cover entire plot area
+    ax.plot([-0.5, len(x_labels)-0.5], [-0.5, len(y_labels)-0.5], 
+            linestyle='--', color='red', alpha=0.5, linewidth=2)
+    
+    # Scatter plot
+    scatter = ax.scatter(x, y, s=sizes, alpha=0.7,
+                        c=colors,
+                        edgecolor='black', 
+                        linewidth=1)
     
     # 값이 0보다 큰 경우에만 값 표시
     for i, (x_pos, y_pos, value) in enumerate(zip(x, y, values)):
@@ -87,8 +97,8 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
     
     # 축 레이블 추가 및 스타일 개선
     ax.set_title(title, pad=20, fontsize=20)
-    ax.set_xlabel('trans', loc='left', fontsize=16)  # x축 레이블 추가
-    ax.set_ylabel('ori', loc='bottom', fontsize=16)    # y축 레이블 추가
+    ax.set_xlabel('After', loc='center', fontsize=16)  # x축 레이블 추가
+    ax.set_ylabel('Before', loc='center', fontsize=16)    # y축 레이블 추가
     
     # x축 설정
     ax.set_xticks(range(len(x_labels)))
@@ -101,12 +111,12 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
     # 그리드 스타일 개선
     ax.grid(True, linestyle='--', alpha=0.7)
     
-    # 축 범위 명시적 설정
-    ax.set_xlim(-1.0, len(x_labels)-0.5)
-    ax.set_ylim(-1.0, len(y_labels)-0.5)
+    # 축 범위 설정 유지
+    ax.set_xlim(-0.5, len(x_labels)-0.5)
+    ax.set_ylim(-0.5, len(y_labels)-0.5)
     
-    # 여백 조정
-    ax.margins(0.2)
+    # margins 설정 유지
+    ax.margins(0.15)
 
 # 전체 레이아웃 조정 - subplot 간격 증가
 plt.tight_layout(rect=[0.03, 0.03, 1, 0.95], 

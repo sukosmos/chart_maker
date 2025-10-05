@@ -7,11 +7,11 @@ y_labels = ["identical", "equivalent", "alternatives", "workaround", "incorrect"
 # 데이터셋 (각 행은 y, 각 열은 x)
 datasets = {
     "GPT-4o": [
-        [0, 2, 1, 0, 2],
-        [2, 0, 3, 1, 0],
-        [3, 0, 0, 0, 1],
+        [0, 1, 7, 1, 0],
         [0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 0]
+        [0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
     ],
     "Claude Sonnet 3.5": [
         [0, 2, 0, 0, 3],
@@ -113,7 +113,7 @@ for ax, (title, data) in zip(axes.flat, datasets.items()):
     
     # 축 범위 설정 유지
     ax.set_xlim(-0.5, len(x_labels)-0.5)
-    ax.set_ylim(-0.5, len(y_labels)-0.5)
+    ax.set_ylim(-1.0, len(y_labels)-0.5)
     
     # margins 설정 유지
     ax.margins(0.15)

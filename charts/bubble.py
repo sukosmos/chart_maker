@@ -7,7 +7,7 @@ y_labels = ["identical", "equivalent", "alternatives", "workaround", "incorrect"
 # 데이터셋 (각 행은 y, 각 열은 x)
 datasets = {
     "GPT-4o": [
-        [0, 4, 5, 0, 0],
+        [0, 3, 5, 0, 0],
         [0, 0, 0, 1, 0],
         [0, 0, 0, 2, 0],
         [0, 0, 0, 0, 0],

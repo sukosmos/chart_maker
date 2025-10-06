@@ -44,15 +44,21 @@ def get_bubble_color(i, j):
     """
     # Category indices
     identical_equiv = [0, 1]      # identical, equivalent
-    alternatives_equiv = [1, 2]    # equivalent, alternatives
-    incorrect_indices = [3, 4]    # workaround, incorrect
+    alternatives_idx = 2          # alternatives
+    workaround_idx = 3           # workaround
+    incorrect_idx = 4            # incorrect
     
-    if i in identical_equiv and j in alternatives_equiv:
-        return '#f39c12'  # 주황색 (identical/equivalent -> alternatives/equivalent)
-    elif i in identical_equiv + [2] and j in incorrect_indices:
-        return '#e74c3c'  # 붉은색 (correct -> incorrect)
-    elif i in incorrect_indices and j in incorrect_indices:
-        return '#9b59b6'  # 보라색 (incorrect -> incorrect)
+    # Correct categories (identical, equivalent, alternatives)
+    correct_indices = [0, 1, 2]
+    # Incorrect categories (workaround, incorrect)
+    incorrect_indices = [3, 4]
+    
+    if i in identical_equiv and j in [1, 2]:  # identical/equivalent -> equivalent/alternatives
+        return '#f39c12'  # 주황색
+    elif (i in correct_indices and j in incorrect_indices) or (i == workaround_idx and j == incorrect_idx):
+        return '#e74c3c'  # 붉은색 (correct -> incorrect/workaround 또는 workaround -> incorrect)
+    elif i in incorrect_indices and j in incorrect_indices and i != workaround_idx:
+        return '#9b59b6'  # 보라색 (incorrect -> incorrect, except workaround -> incorrect)
     else:
         return '#1a80bb'  # 기존 파란색
 

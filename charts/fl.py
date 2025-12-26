@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 모델 이름
-models = ["GPT-4o", "Claude Sonnet 3.5", "o3-mini-high", "Gemini 2.0 flash"]
+models = ["GPT-4o", "Claude Sonnet 3.5", "o3-mini-high", "Gemini 2.0 Flash"]
 
 # ORI 데이터
 incorrect_ori = [11, 7, 12, 14]

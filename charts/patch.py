@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Model names with versions - 수정
-models = ["GPT-4o", "Claude Sonnet 3.5", "o3-mini-high", "Gemini 2.0 flash"]
+models = ["GPT-4o", "Claude Sonnet 3.5", "o3-mini-high", "Gemini 2.0 Flash"]
 model_labels = [f"(ori)    (trans)\n\n{m}" for m in models]
 
 # ORI 데이터
@@ -103,7 +103,7 @@ def add_labels(group_vals, bar_group, is_ori=True):
                     fontweight='bold',
                     arrowprops=dict(arrowstyle='->', color='black', linewidth=1)
                 )
-                
+                '''
                 # 비율은 별도로 표시
                 ax.text(xytext[0], xytext[1] - h/4,
                        f"\n\n({ratio:.1f}%)",
@@ -111,6 +111,7 @@ def add_labels(group_vals, bar_group, is_ori=True):
                        color="black",
                        fontsize=9,  # 비율은 9
                        fontweight='bold')
+                       '''
             else:
                 # 기존 방식대로 막대 안에 표시
                 ax.text(x_pos, y_pos + h/8,
@@ -119,13 +120,14 @@ def add_labels(group_vals, bar_group, is_ori=True):
                        color="black",
                        fontsize=14,
                        fontweight="bold")
-                
+                '''
                 ax.text(x_pos, y_pos - h/8,
                        f"\n({ratio:.1f}%)",
                        ha="center", va="center", 
                        color="black",
                        fontsize=9,
                        fontweight="bold")
+'''
 
 # Add labels for both versions (함수 호출 부분도 수정)
 add_labels([identical_ori, equivalent_ori, alternatives_ori, workaround_ori, incorrect_ori], bars_ori, is_ori=True)
@@ -145,8 +147,10 @@ ax.tick_params(axis='both', labelsize=14)
 ax.yaxis.set_major_locator(plt.MultipleLocator(10))  # 5단위로 눈금 설정
 ax.grid(axis='y', linestyle='--', alpha=0.7)  # y축 방향으로만 점선 격자 추가
 
-# Legend
-ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=14)
+# Legend 위치 수정
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.25), 
+         ncol=5,  # 범례를 한 줄로 표시
+         fontsize=14)
 
 plt.tight_layout()
 plt.savefig('patch.png', format='png', dpi=300, bbox_inches='tight')

@@ -15,7 +15,7 @@ plt.rcParams.update({
 # ======================================================
 kllm_models = ["ax", "solar", "exaone", "kanana", "midm", "hyperclovax"]
 os_models   = ["qwen", "codellama"]
-gpt_models  = ["3.5-turbo", "4.1-nano"]
+gpt_models  = ["gpt-3.5", "gpt-4.1"]
 
 models = kllm_models + os_models + gpt_models
 
@@ -30,9 +30,9 @@ def get_group(model):
 # ======================================================
 # 2. 색상 정의 (언어별)
 # ======================================================
-COLOR_CORRECT = "#1a80bb"     # 파란색
-COLOR_INCORRECT = "#ea801c"   # 주황색
-COLOR_NULL = "#A3A3A3"        # 진한 회색
+COLOR_CORRECT = "#00b0be"     # 파란색
+COLOR_INCORRECT = "#ffb255"   # 주황색
+COLOR_NULL = "#A3A3A3" 
 
 # ======================================================
 # 3. Fix 데이터 (data 파일 기준)
@@ -228,13 +228,22 @@ ax.legend(
 ax.set_ylabel("Number of bugs", fontsize=12)
 
 ax.set_xticks(x)
-ax.set_xticklabels([f"(EN) (KO)\n{m}" for m in models], fontsize=10)
+ax.set_xticklabels([f"(EN) (KR)\n{m}" for m in models], fontsize=10)
 
 ax.yaxis.set_major_locator(plt.MultipleLocator(20))
 ax.grid(axis="y", linestyle="--", alpha=0.6)
 
+# Y축 범위 확장하여 상단 여백 확보
+ax.set_ylim(0, 185)
+ax.set_xlim(-0.5, x[-1] + 0.5)
+
+# 그룹 라벨 추가
+ax.text((x[0] + x[5]) / 2, 178, 'Ko-LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
+ax.text((x[6] + x[7]) / 2, 178, 'Global open-source LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
+ax.text((x[8] + x[9]) / 2, 178, 'Commercial LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
+
 # 제목을 하단에 추가
-ax.set_xlabel("APR correctness (EN vs KO)", fontsize=14, fontweight="bold", labelpad=15)
+ax.set_xlabel("APR correctness (EN vs KR)", fontsize=14, fontweight="bold", labelpad=15)
 
 # ======================================================
 # 9. Save

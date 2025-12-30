@@ -40,37 +40,36 @@ width = 0.2  # 막대 너비
 
 # 색상 정의
 colors = {
-    'FL-EN': '#1f77b4',   # 파란색
-    'FL-KO': '#ff7f0e',   # 주황색
-    'APR-EN': '#2ca02c',  # 초록색
-    'APR-KO': '#d62728',  # 빨간색
+    'FL-EN': '#00b0be',   # 파란색
+    'FL-KO': '#8fd7d7',   # 주황색
+    'APR-EN': '#ffb255',  # 초록색
+    'APR-KO': '#ffcd8e',  # 빨간색
 }
 
 # 막대 그리기
 bars1 = ax.bar(x - width*1.5, fl_en, width, label='FL-EN', color=colors['FL-EN'], edgecolor='black', linewidth=0.5)
-bars2 = ax.bar(x - width*0.5, fl_ko, width, label='FL-KO', color=colors['FL-KO'], edgecolor='black', linewidth=0.5)
+bars2 = ax.bar(x - width*0.5, fl_ko, width, label='FL-KR', color=colors['FL-KO'], edgecolor='black', linewidth=0.5)
 bars3 = ax.bar(x + width*0.5, apr_en, width, label='APR-EN', color=colors['APR-EN'], edgecolor='black', linewidth=0.5)
-bars4 = ax.bar(x + width*1.5, apr_ko, width, label='APR-KO', color=colors['APR-KO'], edgecolor='black', linewidth=0.5)
+bars4 = ax.bar(x + width*1.5, apr_ko, width, label='APR-KR', color=colors['APR-KO'], edgecolor='black', linewidth=0.5)
 
 # 각 막대에 값 표시 (막대 안쪽)
 for i, (bar1, bar2, bar3, bar4) in enumerate(zip(bars1, bars2, bars3, bars4)):
     # FL-EN
     height1 = bar1.get_height()
     ax.text(bar1.get_x() + bar1.get_width()/2., height1 - 0.05,
-            f'{height1:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='white', fontweight='bold')
+            f'{height1:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='black', fontweight='bold')
     # FL-KO
     height2 = bar2.get_height()
     ax.text(bar2.get_x() + bar2.get_width()/2., height2 - 0.05,
-            f'{height2:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='white', fontweight='bold')
+            f'{height2:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='black', fontweight='bold')
     # APR-EN
     height3 = bar3.get_height()
     ax.text(bar3.get_x() + bar3.get_width()/2., height3 - 0.05,
-            f'{height3:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='white', fontweight='bold')
+            f'{height3:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='black', fontweight='bold')
     # APR-KO
     height4 = bar4.get_height()
     ax.text(bar4.get_x() + bar4.get_width()/2., height4 - 0.05,
-            f'{height4:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='white', fontweight='bold')
-
+            f'{height4:.3f}', ha='center', va='top', fontsize=8, rotation=90, color='black', fontweight='bold')
 # 축 설정
 ax.set_xlabel('Model', fontweight='bold', fontsize=12)
 ax.set_ylabel('Quality Metric', fontweight='bold', fontsize=12)
@@ -83,17 +82,20 @@ ax.set_ylim(0, 1.1)
 ax.grid(True, axis='y', alpha=0.3, linestyle='--')
 ax.set_axisbelow(True)
 
+# X축 여백 제한
+ax.set_xlim(-0.5, x[-1] + 0.5)
+
 # 범례 (그래프 아래)
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), frameon=True, edgecolor='black', fontsize=10, ncol=4)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.25), frameon=True, edgecolor='black', fontsize=10, ncol=4)
 
 # 그룹 구분선 추가 (K-LLM | OS | GPT)
 ax.axvline(x=5.5, color='gray', linestyle='--', linewidth=1.5, alpha=0.7)
 ax.axvline(x=7.5, color='gray', linestyle='--', linewidth=1.5, alpha=0.7)
 
 # 그룹 라벨 추가
-ax.text(2.5, 1.05, 'K-LLM', ha='center', fontsize=11, fontweight='bold', color='gray')
-ax.text(6.5, 1.05, 'Open-source', ha='center', fontsize=11, fontweight='bold', color='gray')
-ax.text(8.5, 1.05, 'GPT', ha='center', fontsize=11, fontweight='bold', color='gray')
+ax.text(2.5, 1.05, 'Ko-LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
+ax.text(6.5, 1.05, 'Global open-source LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
+ax.text(8.5, 1.05, 'Commercial LLMs', ha='center', fontsize=11, fontweight='bold', color='gray')
 
 # 저장
 plt.tight_layout()
